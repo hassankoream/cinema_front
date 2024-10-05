@@ -1,0 +1,59 @@
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 log_container">
+    <form [formGroup]="LoginForm" (ngSubmit)="login()" class="w-full max-w-lg p-8 bg-black bg-opacity-70 rounded-lg shadow-lg">
+        <h1 class="text-white text-xl py-3 capitalize">sign in</h1>
+        <!-- email input -->
+        <div class="relative mb-8">
+            <input formControlName="email" autocomplete="on" type="email" id="floating_email"
+                class="block w-full py-4 text-lg text-white bg-transparent border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-red-600 peer"
+                placeholder=" " />
+            <label for="floating_email"
+                class="absolute text-sm text-gray-400 transition-transform transform scale-75 -translate-y-8 top-4 left-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-8">
+                Email address
+            </label>
+            <div *ngIf="LoginForm.get('email')?.errors && LoginForm.get('email')?.touched" class="text-red-500 text-sm mt-2">
+                <ul>
+                    <li *ngIf="LoginForm.get('email')?.getError('required')">Email is required</li>
+                    <li *ngIf="LoginForm.get('email')?.getError('pattern')">Invalid email format</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- password input -->
+        <div class="relative mb-8">
+            <input formControlName="password" autocomplete="off" type="password" id="floating_password"
+                class="block w-full py-4 text-lg text-white bg-transparent border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-red-600 peer"
+                placeholder=" " />
+            <label for="floating_password"
+                class="absolute text-sm text-gray-400 transition-transform transform scale-75 -translate-y-8 top-4 left-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-8">
+                Password
+            </label>
+            <div *ngIf="LoginForm.get('password')?.errors && LoginForm.get('password')?.touched" class="text-red-500 text-sm mt-2">
+                <ul>
+                    <li *ngIf="LoginForm.get('password')?.getError('required')">Password is required</li>
+                    <li *ngIf="LoginForm.get('password')?.getError('pattern')">
+                        <ul>
+                            <li>Password must be at least 8 characters</li>
+                            <li>Include upper and lower case letters</li>
+                            <li>At least one number</li>
+                            <li>At least one special character</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- submit button -->
+        <button [disabled]="LoginForm.invalid" type="submit"
+            class="w-full py-3 text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 rounded-lg text-base font-medium transition">
+            Sign In
+        </button>
+        <div class="text-white text-lg py-3">New to SDM? <a routerLink="/signup" class="underline">Sign up now.</a></div>
+        <div *ngIf="msgError" class="text-white bg-cyan-800 text-lg mt-2 p-2">
+            <ul>
+                <li>{{msgError}}</li>
+        
+            </ul>
+        </div>
+    </form>
+</div>
+

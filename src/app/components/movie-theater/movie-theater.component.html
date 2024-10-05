@@ -1,0 +1,136 @@
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-t from-black via-gray-900 to-black py-10">
+  <!-- Movie Section -->
+  <div class="relative w-full max-w-4xl p-4">
+    <!-- Cinematic border or overlay -->
+    <div class="absolute inset-0 z-0 bg-gradient-to-t from-black via-transparent to-black opacity-80 rounded-lg"></div>
+
+    <!-- Video Embed -->
+    <iframe *ngIf="showUrl"
+      class="relative z-10 w-full h-[500px] md:h-[700px] border-4 border-gray-800 rounded-lg shadow-lg"
+      [src]="showUrl | safeUrl"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+
+    <!-- Episode Navigation Buttons -->
+
+
+    <div *ngIf="showType=='tv'"  class="relative z-10 flex items-center justify-between mt-4">
+    <button (click)="toPervEpisode()" 
+      class="bg-gray-800 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-gray-600 transition duration-300"
+      >
+      Previous Episode
+    </button>
+
+    <button (click)="toNextEpisode()" 
+      class="bg-gray-800 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-gray-600 transition duration-300"
+     >
+      Next Episode
+    </button>
+  </div>
+
+
+  </div>
+
+
+
+</section>
+
+
+
+
+<!-- TV Show Seasons and Episodes Section -->
+<section *ngIf="showType == 'tv'" class="my-10">
+  <div class=" mx-3 bg-gray-100 p-5 rounded-lg shadow-lg">
+
+    <!-- Choose Season -->
+    <div class="mb-5">
+      <label for="season-select" class="block text-lg font-semibold mb-2 text-gray-800">Choose Season:</label>
+      <select id="season-select" [(ngModel)]="selectedSeason" (change)="fetchSeasonData(selectedSeason())"
+        class="w-full p-2 bg-gray-200 border border-gray-300 rounded-lg text-gray-800">
+        <option *ngFor="let season of seasons" [value]="season">Season {{ season }}</option>
+      </select>
+    </div>
+
+ <!-- Display Episodes -->
+<div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2">
+  <div *ngFor="let episode of totalEpisodesPerSeason"
+    class="p-2 rounded-lg shadow-md relative hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+    (click)="selectEpisode(episode.episode_number)"
+    [ngClass]="{'bg-cyan-200': selectedEpisode()===episode.episode_number, 
+      'bg-white': selectedEpisode()!==episode.episode_number
+     }">
+    
+    <!-- Episode Image -->
+    <div class="h-28 overflow-hidden rounded-lg mb-2">
+      <img *ngIf="episode.still_path" [src]="mainImageUrl + episode.still_path" alt="Episode Image" class="w-full h-full object-cover">
+      <img *ngIf="!episode.still_path" src="../../../assets/images/angry-mac-boy-cinema.jpeg" alt="Episode Image" class="w-full h-full object-cover">
+  
+    </div>
+    <div class="relative -top-5 left-2 mb-2 text-black">
+      <app-progress-circle
+      [progress]="episode.vote_average|percentage"
+      >
+      </app-progress-circle>
+    </div>
+ 
+
+    <!-- Episode Info -->
+    <div class="text-gray-800">
+      <h3 class="text-sm font-semibold mb-1">Ep {{ episode.episode_number }}</h3>
+      <p class="text-xs text-gray-600 mb-1">{{ episode.air_date | date }}</p>
+      <p class="text-xs text-gray-700 line-clamp-2">{{ episode.overview || 'No description available' }}</p>
+
+ 
+    </div>
+  </div>
+</div>
+
+  </div>
+</section>
+
+
+<!-- Recommended Shows section -->
+<section *ngIf="showRecommendations && showRecommendations.length > 0 " class="my-10 ">
+  <div class="w-2/3 mx-auto">
+    <h3 class="text-lg font-medium text-gray-700 mb-4">Recommended Shows:</h3>
+
+    <!-- Slider Wrapper -->
+    <div class="flex overflow-x-auto gap-4">
+      <!-- Single Show Card -->
+      <div *ngFor="let show of showRecommendations"
+        class="flex-none w-48 relative group bg-white rounded-lg shadow-md overflow-hidden">
+
+
+        <!-- Show Poster -->
+        <a class="relative crp" [routerLink]="['/m/show-details', show.media_type || 'movie', show.id]">
+          <img *ngIf="show.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + show.poster_path"
+            [alt]="show.name || show.title"
+            class="w-full h-64 object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" />
+          <img *ngIf="!show.poster_path" src="../../../assets/images/angry-mac-boy-cinema.jpeg"
+            [alt]="show.name || show.title"
+            class="w-full h-64 object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" />
+        </a>
+
+        <!-- Show Title and Date -->
+        <h2 class="text-sm font-semibold text-center text-gray-800 p-2">
+          {{ show.name || show.title }}
+          <span *ngIf="show.release_date || show.first_air_date">
+            ({{ show.release_date || show.first_air_date | date: 'yyyy' }})
+          </span>
+        </h2>
+      </div>
+    </div>
+
+    <!-- View All Button -->
+    <!-- <a
+          *ngIf="showRecommendations.length > 10"
+          [routerLink]="['/all-recommendations']"
+          class="m-3 crp bg-slate-200 hover:bg-slate-400 rounded-md shadow-md p-2 duration-150 capitalize inline-block"
+        >
+          Show All <i class="mx-2 fa-solid fa-arrow-right"></i>
+        </a> -->
+  </div>
+
+</section>

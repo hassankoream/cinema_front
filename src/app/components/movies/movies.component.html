@@ -1,0 +1,190 @@
+<section class="mt-40 ">
+    <!-- add post -->
+    <div class="lg:w-1/2 mx-auto mb-20 ">
+
+        <!-- Main modal -->
+        <div id="authentication-modal" tabindex="-1"
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-1/2 max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            Add New post
+                        </h3>
+                        <button (click)="closeModal()" type="button"
+                            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-4 md:p-5">
+                        <div class="space-y-4">
+                            <!--  post body input -->
+                            <div>
+                                <label for="body"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">content
+                                </label>
+                                <textarea [(ngModel)]="content" name="body" id="body"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                    placeholder=""></textarea>
+
+                            </div>
+
+
+                            <!-- post image input -->
+                            <div>
+
+                                <!-- Preview area -->
+                                <div *ngIf="previewUrl" class="mt-4">
+                                    <img [src]="previewUrl" alt="File Preview"
+                                        class="w-64 h-auto border border-gray-300 rounded-lg" />
+                                </div>
+
+                            </div>
+                            <!-- create post button -->
+                            <div class="flex justify-around items-center gap-5">
+
+                                <button (click)="createPost()" type="submit"
+                                    class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                                    post</button>
+                            </div>
+                            @if (msgError) {<p class="error text-center text-red-600">{{msgError}}</p>}
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Container for Sidebar and Main Content -->
+    <div class="flex">
+
+       
+
+
+        <!-- Main Content -->
+        <div class="w-4/5 container mx-auto p-6">
+
+            <!-- Movies Section -->
+            <h1 class="text-2xl font-bold text-orange-600 my-4 p-2  bg-slate-100 rounded-md shadow-md">{{category | formatTitle}} Movies</h1>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+                @for (movie of moviesList; track movie.id) {
+                <div
+                    class=" bg-slate-100 rounded-lg shadow-lg p-2 relative transition-transform duration-500 hover:scale-105">
+
+                    <!-- Movie Poster -->
+                    <div [routerLink]="['/m/show-details' , movie.media_type || 'movie', movie.id]"
+                        class="h-52 overflow-hidden rounded-lg">
+                        <img *ngIf="movie.poster_path" [src]="imageUrl + movie.poster_path" [alt]="movie.original_title"
+                            class="w-full h-full object-cover crp">
+                        <img *ngIf="!movie.poster_path" src="../../../assets/images/angry-mac-boy-cinema.jpeg"
+                            [alt]="movie.original_title" class="w-full h-full object-cover crp">
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="relative -top-5 left-2">
+                        <!-- Dynamic Border Circle -->
+
+
+                        <app-progress-circle [progress]="movie.vote_average|percentage">
+                        </app-progress-circle>
+
+
+
+
+
+                    </div>
+
+
+
+
+
+                    <!-- Movie Title and Release Date -->
+                    <div class="mt-2 text-center">
+                        <h3 class="text-md font-semibold truncate ">{{ movie.title | splitTitle }}</h3>
+                        <p class="text-sm">{{ movie.release_date }}</p>
+                        <button (click)="showModal(movie.poster_path, movie.id)"
+                            class="text-[#1E90FF] mt-2 flex items-center justify-center">
+                            <i class="fa-solid fa-share-alt mr-1"></i> Share
+                        </button>
+                    </div>
+
+
+                </div>
+                }
+            </div>
+
+            <!-- pagination -->
+            <div class="flex justify-center items-center">
+                <div
+                    class="flex justify-between items-center my-10 gap-3 bg-orange-400 md:w-2/3 w-full p-4 rounded-lg shadow-lg">
+
+                    <!-- First Page Button -->
+                    <button (click)="goFirst()" class="pagination-btn">
+                        <i class="fa-solid fa-angles-left"></i>
+                    </button>
+
+                    <!-- Previous Page Button -->
+                    <button (click)="prevPage()" class="pagination-btn">
+                        <!-- <i class="fa-solid fa-angle-left"></i> -->
+                        Pervious
+                    </button>
+
+                    <!-- Page Numbers -->
+                    @if (currentPage > 2) {
+                    <span (click)="fetchMovies(currentPage-2)" class="page-number">{{currentPage - 2}}</span>
+                    }
+                    @if (currentPage > 1) {
+                    <span (click)="fetchMovies(currentPage-1)" class="page-number">{{currentPage - 1}}</span>
+                    }
+
+                    <!-- Current Page -->
+                    <span class="page-number-active">{{currentPage}}</span>
+
+                    @if (currentPage < 500) { <span (click)="fetchMovies(currentPage+1)" class="page-number">
+                        {{currentPage + 1}}</span>
+                        }
+                        @if (currentPage < 499) { <span (click)="fetchMovies(currentPage+2)" class="page-number">
+                            {{currentPage + 2}}</span>
+                            }
+
+                            <!-- Next Page Button -->
+                            <button (click)="nextPage()" class="pagination-btn">
+                                <!-- <i class="fa-solid fa-angle-right"></i> -->
+                                Next
+                            </button>
+
+                            <!-- Last Page Button -->
+                            <button (click)="goLast()" class="pagination-btn">
+                                <i class="fa-solid fa-angles-right"></i>
+
+                            </button>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+    <app-arrowtop></app-arrowtop>
+</section>

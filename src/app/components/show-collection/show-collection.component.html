@@ -1,0 +1,137 @@
+<!-- Details menu navigation -->
+
+<section></section>
+
+<!-- details -->
+<canvas #imageCanvas style="display:none;"></canvas>
+
+<section *ngIf="collectionDetails" class="w-full text-white p-5 my-2" [ngStyle]="{
+   'background-image': 
+      'linear-gradient(' + extractedColor + ', rgba(0, 0, 0, 0.5)), url(' + 
+      imageUrl + ')',
+  'background-size': 'cover',
+  'background-position': 'center',
+  'background-repeat': 'no-repeat'
+}">
+  <div class="flex flex-col md:flex-row items-center  mx-auto gap-8 w-11/12 ">
+
+
+
+    <!-- Poster Section -->
+    <div class=" lg:w-1/4 md:w-1/3 w-1/2 ">
+      <img *ngIf="collectionDetails.poster_path" [src]=" mainImageUrl + collectionDetails.poster_path"
+        alt="{{ collectionDetails.name}}" class="rounded-lg shadow-lg" />
+      <img *ngIf="!collectionDetails.poster_path" src="../../../assets/images/canot_find_movie.jpeg"
+        alt="{{ collectionDetails.name}}" class="rounded-lg shadow-lg" />
+
+    </div>
+
+    <!-- Details Section -->
+    <div class=" lg:w-3/4 md:w-2/3 w-full">
+      <!-- 1 -->
+      <div class="flex justify-start items-center ">
+        <h1 class=" text-6xl font-black m-0">{{collectionDetails.name }}
+
+        </h1>
+
+      </div>
+      <!-- 2 -->
+      <div class="flex items-center justify-start gap-3">
+
+
+        <!-- Genres -->
+
+
+        <!-- <div class="flex flex-wrap">
+          <div *ngFor="let genre of showDetails.genres; let i = index">
+            <span class="rounded-lg text-sm hover:text-gray-300 duration-150 crp">
+              {{ genre.name }}
+            </span>
+
+            <ng-container *ngIf="i !== showDetails.genres.length - 1">,</ng-container>
+          </div>
+
+        </div> -->
+
+
+
+
+      </div>
+      <!-- 3 -->
+      <!-- <div class="flex items-center justify-start gap-3 mt-10">
+
+        <div class="text-black crp"> <app-progress-circle [progress]="showDetails.vote_average| percentage"
+            [paddingValue]="30" [fontSizeValue]="20"></app-progress-circle></div>
+        <div class="flex flex-col text-lg"><span>User</span><span>Score</span></div>
+
+
+      </div> -->
+      <!-- 4 -->
+      <div class="flex items-center justify-start gap-3 mt-4">
+        <span
+          class="crp rounded-full bg-blue-800 text-white p-4 w-10 h-10 flex justify-center items-center me-4 text-sm"><i
+            class="fa-solid fa-list"></i></span>
+        <span
+          class="crp rounded-full bg-blue-800 text-white p-4 w-10 h-10 flex justify-center items-center me-4 text-sm"><i
+            class="fa-solid fa-heart"></i></span>
+        <span
+          class="crp rounded-full bg-blue-800 text-white p-4 w-10 h-10 flex justify-center items-center me-4 text-sm"><i
+            class="fa-solid fa-bookmark"></i></span>
+
+      </div>
+
+
+      <!-- 5 -->
+      <div class="flex items-center justify-start mt-4">
+        <div class="flex flex-col">
+
+
+          <span class="text-white text-xl font-bold">Overview</span>
+          <div class="text-lg mb-4">{{ collectionDetails.overview }}</div>
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+  </div>
+</section>
+
+
+<!-- details and parts -->
+<section *ngIf="collectionDetails && collectionDetails.parts && collectionDetails.parts.length > 0" class="my-10">
+
+  <div class="container mx-auto px-4">
+
+    <div class="flex flex-wrap justify-center gap-6">
+      @for (movie of collectionDetails.parts; track movie.id) {
+      <div class="flex flex-col bg-slate-100 rounded-lg shadow-lg p-2 relative transition-transform duration-500 hover:scale-105 w-[45%] sm:w-[30%] lg:w-[18%]">
+
+        <!-- Movie Poster with increased height on large screens -->
+        <div [routerLink]="['/m/show-details', movie.media_type || 'movie', movie.id]" 
+             class="h-52 lg:h-64 xl:h-72 overflow-hidden rounded-lg crp">
+          <img [src]="mainImageUrl + movie.poster_path" [alt]="movie.original_title" 
+               class="w-full h-full object-cover">
+        </div>
+
+        <!-- Rating -->
+        <div class="relative -top-5 left-2">
+          <app-progress-circle [progress]="movie.vote_average | percentage"></app-progress-circle>
+        </div>
+
+        <!-- Movie Title and Release Date -->
+        <div class="mt-2 text-center">
+          <h3 class="text-md font-semibold truncate">{{ movie.title | splitTitle }}</h3>
+          <p class="text-sm">{{ movie.release_date | date:'yyyy' }}</p>
+        </div>
+
+      </div>
+      }
+    </div>
+
+  </div>
+
+</section>
+

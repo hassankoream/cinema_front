@@ -1,0 +1,10 @@
+.trailers{
+    background: linear-gradient(rgba(3, 37, 65, 0.8), rgba(3, 37, 65, 0.8)), url(https://image.tmdb.org/t/p/original/r6Ghtw9ENhTXfeUsd1Al20ZAvX.jpg);
+    background-size: cover;
+    background-position: top;
+    /* transition: background 0.5s ease-in-out; */
+}
+h3, p, h2 {
+    margin: 0;
+    text-align: center;
+}

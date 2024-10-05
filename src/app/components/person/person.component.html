@@ -1,0 +1,238 @@
+<section class="my-10 flex justify-center items-center">
+
+  <div *ngIf="personDetails" class="container flex gap-10 justify-center ps-5">
+
+
+    <!-- side bio -->
+    <div class="md:w-1/3 lg:w-1/5 w-1/2 p-4 bg-gray-100 rounded-lg shadow-lg">
+      <!-- Profile Image Section -->
+      <div *ngIf="personDetails?.profile_path" class="mb-4">
+        <img [src]="mainImageUrl + personDetails.profile_path" [alt]="personDetails.name"
+          class="w-full h-auto rounded-md border border-gray-300 shadow-sm">
+      </div>
+
+      <!-- Social Links Section -->
+      <div class="socialLinks mb-4">
+        <!-- Add social media icons/links here -->
+      </div>
+
+      <!-- Personal Info Section -->
+      <div class="bg-white p-4 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Personal Info</h2>
+
+        <!-- Known For Section -->
+        <div class="mb-4">
+          <h3 class="text-lg font-medium text-gray-700">Known For</h3>
+          <span class="text-sm text-gray-600">{{personDetails.known_for_department}}</span>
+        </div>
+
+        <!-- Known Credits Section -->
+        <div class="mb-4">
+          <h3 class="text-lg font-medium text-gray-700">Known Credits</h3>
+          <span class="text-sm text-gray-600">{{castShows.length + crewShows.length}}</span>
+        </div>
+
+        <!-- Gender Section -->
+        <div *ngIf=" personDetails.gender" class="mb-4">
+          <h3 class="text-lg font-medium text-gray-700">Gender</h3>
+
+          <span class="text-sm text-gray-600" *ngIf="personDetails.gender === 2">Male</span>
+          <span class="text-sm text-gray-600" *ngIf="personDetails.gender === 1">Female</span>
+          <span class="text-sm text-gray-600"
+            *ngIf="personDetails.gender !== 1 && personDetails.gender !== 2">Unknown</span>
+        </div>
+
+
+        <!-- Birthday Section -->
+        <div *ngIf="personDetails.birthday" class="mb-4">
+          <h3 class="text-lg font-medium text-gray-700">Born</h3>
+
+          <span class="text-sm text-gray-600">
+            {{ personDetails.birthday | date: 'MMMM d, y' }}
+            <span *ngIf="!personDetails.deathday"> ({{ personDetails.birthday | age }} years old)</span>
+          </span>
+        </div>
+        <!-- deathday Section -->
+        <div *ngIf="personDetails.deathday" class="mb-4">
+          <h3 class="text-lg font-medium text-gray-700">Died</h3>
+          <span class="text-sm text-gray-600">{{personDetails.deathday | date: 'MMMM d, y'}}</span>
+        </div>
+
+        <!-- Place of Birth Section -->
+        <div *ngIf=" personDetails.place_of_birth" class="mb-4">
+          <h3 class="text-lg font-medium text-gray-700">place of birth</h3>
+          <span class="text-sm text-gray-600">{{personDetails.place_of_birth}}</span>
+        </div>
+
+
+        <!-- Also Known As Section -->
+        <div *ngIf=" personDetails.also_known_as.length>0">
+          <h3 class="text-lg font-medium text-gray-700">Also Known As</h3>
+          <span class="text-sm text-gray-600">{{personDetails.also_known_as}}</span>
+        </div>
+
+
+        <!-- External IDs Section -->
+        <div *ngIf="ex_Ids" class="mt-4">
+          <h3 class="text-lg font-medium text-gray-700 mb-2">Personal Links</h3>
+          <div class="flex gap-4">
+
+            <!-- IMDb -->
+            <a *ngIf="ex_Ids.imdb_id" [href]="'https://www.imdb.com/name/'+ ex_Ids.imdb_id" target="_blank"
+              class="text-lg text-gray-600">
+              <i class="fa-brands fa-imdb text-yellow-500"></i>
+            </a>
+
+            <!-- Wikidata -->
+            <a *ngIf="ex_Ids.wikidata_id" [href]="'https://www.wikidata.org/wiki/'+ ex_Ids.wikidata_id" target="_blank"
+              class="text-lg text-gray-600">
+              <i class="fa-brands fa-wikipedia-w text-black"></i>
+            </a>
+
+            <!-- Facebook -->
+            <a *ngIf="ex_Ids.facebook_id" [href]="'https://www.facebook.com/'+ ex_Ids.facebook_id" target="_blank"
+              class="text-lg text-gray-600">
+              <i class="fa-brands fa-facebook text-blue-600"></i>
+            </a>
+
+            <!-- Instagram -->
+            <a *ngIf="ex_Ids.instagram_id" [href]="'https://www.instagram.com/'+ ex_Ids.instagram_id" target="_blank"
+              class="text-lg text-gray-600">
+              <i class="fa-brands fa-instagram text-pink-600"></i>
+            </a>
+
+            <!-- TikTok -->
+            <a *ngIf="ex_Ids.tiktok_id" [href]="'https://www.tiktok.com/@'+ ex_Ids.tiktok_id" target="_blank"
+              class="text-lg text-gray-600">
+              <i class="fa-brands fa-tiktok text-black"></i>
+            </a>
+
+            <!-- Twitter -->
+            <a *ngIf="ex_Ids.twitter_id" [href]="'https://www.twitter.com/'+ ex_Ids.twitter_id" target="_blank"
+              class="text-lg text-gray-600">
+              <i class="fa-brands fa-twitter text-blue-400"></i>
+            </a>
+
+            <!-- YouTube -->
+            <a *ngIf="ex_Ids.youtube_id" [href]="'https://www.youtube.com/user/'+ ex_Ids.youtube_id" target="_blank"
+              class="text-lg text-gray-600">
+              <i class="fa-brands fa-youtube text-red-600"></i>
+            </a>
+
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+
+
+
+
+
+    <!-- Main Bio -->
+    <div class="md:w-2/3 lg:w-4/5 w-1/2 bg-gray-100 rounded-lg shadow-lg p-6">
+
+      <!-- Name Section -->
+      <h2 *ngIf=" personDetails.name" class="text-2xl font-bold text-gray-800 mb-4">{{ personDetails.name }}</h2>
+
+      <!-- Biography Section -->
+      <div *ngIf=" personDetails.biography" class="mb-6">
+        <h3 class="text-lg font-medium text-gray-700 mb-2">Biography</h3>
+        <p class="text-gray-600">
+          {{ showFullContent ? personDetails.biography : getTruncatedContent(personDetails.biography) }}
+          <span *ngIf="isContentLong(personDetails.biography)" (click)="toggleContent()"
+            class="text-blue-500 cursor-pointer">
+            {{ showFullContent ? 'Read Less' : 'Read More' }}
+          </span>
+        </p>
+      </div>
+
+      <!-- Known For Section -->
+      <div *ngIf="castShows.length > 0" class="mt-8">
+        <h3 class="text-lg font-medium text-gray-700 mb-4">
+          Known For <span>{{ personDetails.known_for_department }}</span>:
+        </h3>
+        <div class="flex overflow-x-auto gap-4">
+          <div *ngFor="let show of castShows.slice(0,10)" class="flex-none w-32 relative group">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <!-- Media Type Badge -->
+              <span class="absolute top-2 left-2 bg-black text-white text-xs font-semibold px-2 py-1 rounded-md z-10">
+                {{ show.media_type }}
+              </span>
+
+              <a class="crp relative" [routerLink]="['/m/show-details', show.media_type || 'movie', show.id]">
+
+                <img *ngIf="show.poster_path" [src]="mainImageUrl + show.poster_path" [alt]="show.name || show.title"
+                  class="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-105">
+                <img *ngIf="!show.poster_path" src="../../../assets/images/angry-mac-boy-cinema.jpeg"
+                  [alt]="show.name || show.title"
+                  class="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-105">
+
+
+              </a>
+
+
+
+              <h2 class="text-sm font-semibold text-center text-gray-800 p-2">{{ show.name || show.title }} <span
+                  *ngIf="show.release_date || show.first_air_date">({{show.release_date|| show.first_air_date|
+                  date:'yyyy'}})</span> </h2>
+
+            </div>
+          </div>
+        </div>
+
+        <a *ngIf="castShows.length > 10" [routerLink]="['/m/person-shows' , personDetails.id]"
+          class="m-3 crp bg-slate-200 hover:bg-slate-400 rounded-md shadow-md  p-2 duration-150 capitalize inline-block">show
+          all works<i class="mx-2 fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <!-- Worked On Section -->
+      <div *ngIf="crewShows.length > 0" class="mt-8">
+        <h3 *ngIf="crewShows.length > 0 && castShows.length > 0" class="text-lg font-medium text-gray-700 mb-4">
+          Other Works
+        </h3>
+        <h3 *ngIf="crewShows.length > 0 && castShows.length == 0" class="text-lg font-medium text-gray-700 mb-4">Worked
+          On</h3>
+        <div class="flex overflow-x-auto gap-4">
+          <div *ngFor="let show of crewShows" class="flex-none w-48 relative group">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+              <!-- Media Type Badge -->
+              <span class="absolute top-2 left-2 bg-black text-white text-xs font-semibold px-2 py-1 rounded-md z-10">
+                {{ show.media_type }}
+              </span>
+
+              <a class="crp relative" [routerLink]="['/m/show-details', show.media_type || 'movie', show.id]">
+                <img *ngIf="show.poster_path" [src]="mainImageUrl + show.poster_path" [alt]="show.name || show.title"
+                  class="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-105">
+                <img *ngIf="!show.poster_path" src="../../../assets/images/angry-mac-boy-cinema.jpeg"
+                  [alt]="show.name || show.title"
+                  class="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-105">
+              </a>
+
+              <!-- Title Section -->
+              <div class="p-4 text-center">
+                <h2 class="text-sm font-semibold text-gray-800 mb-1">{{ show.name || show.title }} <span
+                    *ngIf="show.release_date || show.first_air_date">({{show.release_date|| show.first_air_date|
+                    date:'yyyy'}})</span> </h2>
+                <h3 class="text-xs text-gray-600 mb-1">Department: <span class="font-medium">{{ show.department
+                    }}</span></h3>
+                <h3 class="text-xs text-gray-600">Job: <span class="font-medium">{{ show.job }}</span></h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+
+
+
+  </div>
+</section>

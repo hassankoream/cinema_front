@@ -1,0 +1,20 @@
+<div class="relative flex justify-center items-center rounded-full w-10 h-10"
+     [ngStyle]="{
+       'background': 'radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(' + getProgressColor() + ' ' + progress + '%, gray 0%)',
+       'padding': paddingValue + 'px'
+     }"
+     
+     
+     >
+  <!-- Hidden progress element -->
+  <progress [value]="progress" min="0" max="100" class="hidden">{{ progress }}<sup>%</sup></progress>
+
+  <!-- Display progress percentage -->
+  <div class="absolute text-sm font-bold"
+  [ngStyle]="{
+    'font-size': fontSizeValue + 'px'
+    
+  }"
+  >
+  {{ progress }}<sup>%</sup></div>
+</div>

@@ -1,0 +1,143 @@
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 log_container">
+    <form [formGroup]="registerForm" (ngSubmit)="signUp()"
+        class="w-full max-w-lg p-8 bg-black bg-opacity-70 rounded-lg shadow-lg">
+        <h1 class="text-white text-xl py-3 capitalize">Sign up</h1>
+
+
+        <div class="grid grid-cols-2 gap-2">
+            <!-- Name input -->
+            <div class="relative mb-8">
+                <input formControlName="name" autocomplete="off" type="text" id="floating_name"
+                    class="block w-full py-4 text-lg text-white bg-transparent border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-red-600 peer"
+                    placeholder=" " />
+                <label for="floating_name"
+                    class="absolute text-sm text-gray-400 transition-transform transform scale-75 -translate-y-8 top-4 left-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-8">
+                    Name
+                </label>
+                <div *ngIf="registerForm.get('name')?.errors && registerForm.get('name')?.touched"
+                    class="text-red-500 text-sm mt-2">
+                    <ul>
+                        <li *ngIf="registerForm.get('name')?.getError('required')">Name is required</li>
+                        <li *ngIf="registerForm.get('name')?.getError('minlength')">At least 3 characters</li>
+                        <li *ngIf="registerForm.get('name')?.getError('maxlength')">Up to 20 characters only</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Email input -->
+            <div class="relative mb-8">
+                <input formControlName="email" autocomplete="off" type="email" id="floating_email"
+                    class="block w-full py-4 text-lg text-white bg-transparent border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-red-600 peer"
+                    placeholder=" " />
+                <label for="floating_email"
+                    class="absolute text-sm text-gray-400 transition-transform transform scale-75 -translate-y-8 top-4 left-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-8">
+                    Email address
+                </label>
+                <div *ngIf="registerForm.get('email')?.errors && registerForm.get('email')?.touched"
+                    class="text-red-500 text-sm mt-2">
+                    <ul>
+                        <li *ngIf="registerForm.get('email')?.getError('required')">Email is required</li>
+                        <li *ngIf="registerForm.get('email')?.getError('pattern')">Invalid email format</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Password input -->
+            <div class="relative mb-8">
+                <input formControlName="password" autocomplete="off" type="password" id="floating_password"
+                    class="block w-full py-4 text-lg text-white bg-transparent border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-red-600 peer"
+                    placeholder=" " />
+                <label for="floating_password"
+                    class="absolute text-sm text-gray-400 transition-transform transform scale-75 -translate-y-8 top-4 left-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-8">
+                    Password
+                </label>
+                <div *ngIf="registerForm.get('password')?.errors && registerForm.get('password')?.touched"
+                    class="text-red-500 text-sm mt-2">
+                    <ul>
+                        <li *ngIf="registerForm.get('password')?.getError('required')">Password is required</li>
+                        <li *ngIf="registerForm.get('password')?.getError('pattern')">
+                            <ul>
+                                <li>Password must be at least 8 characters</li>
+                                <li>Include upper and lower case letters</li>
+                                <li>At least one number</li>
+                                <li>At least one special character</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Confirm Password input -->
+            <div class="relative mb-8">
+                <input formControlName="rePassword" autocomplete="off" type="password" id="floating_repeat_password"
+                    class="block w-full py-4 text-lg text-white bg-transparent border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-red-600 peer"
+                    placeholder=" " />
+                <label for="floating_repeat_password"
+                    class="absolute text-sm text-gray-400 transition-transform transform scale-75 -translate-y-8 top-4 left-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-8">
+                    Confirm password
+                </label>
+                <div *ngIf="registerForm.getError('mismatch')" class="text-red-500 text-sm mt-2">
+                    <ul>
+                        <li>Password does not match</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Date of Birth input -->
+            <div class="relative mb-8">
+                <input formControlName="dateOfBirth" autocomplete="off" type="date" id="floating_date_of_birth"
+                    class="block w-full py-4 text-lg text-white bg-transparent border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-red-600 peer"
+                    placeholder=" " />
+                <label for="floating_date_of_birth"
+                    class="absolute text-sm text-gray-400 transition-transform transform scale-75 -translate-y-8 top-4 left-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-8">
+                    Date of birth
+                </label>
+                <div *ngIf="registerForm.get('dateOfBirth')?.errors && registerForm.get('dateOfBirth')?.touched"
+                    class="text-red-500 text-sm mt-2">
+                    <ul>
+                        <li *ngIf="registerForm.get('dateOfBirth')?.getError('required')">Date of birth is required</li>
+                        <li *ngIf="registerForm.get('dateOfBirth')?.getError('pattern')">Invalid date format
+                            (YYYY-MM-DD)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Gender select -->
+            <div class="relative mb-8">
+                <select formControlName="gender" id="gender"
+                    class="block w-full py-4 text-lg text-white bg-transparent border-b-2 border-gray-600 appearance-none focus:outline-none focus:ring-0 focus:border-red-600 peer">
+                    <option value="" selected></option>
+                    <option value="male" class="text-black">Male</option>
+                    <option value="female"  class="text-black">Female</option>
+                </select>
+                <label for="gender"
+                    class="absolute text-sm text-gray-400 transition-transform transform scale-75 -translate-y-8 top-4 left-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-8">
+                    Gender
+                </label>
+            </div>
+        </div>
+
+
+        <!-- Submit button -->
+        <button [disabled]="registerForm.invalid" type="submit"
+            class="w-full py-3 text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 rounded-lg text-base font-medium transition">
+            Sign Up
+        </button>
+        <div class="text-white text-lg py-3">Already have an account? <a routerLink="/login" class="underline">Sign in
+                now.</a></div>
+                <div *ngIf="msgError" class="text-white bg-cyan-800 text-lg mt-2 p-2">
+                    <ul>
+                        <li>{{msgError}}</li>
+                
+                    </ul>
+                </div>
+    </form>
+   
+</div>
+
+
+<!-- @if (msgError == "fail") {
+        <p class="p-3 bg-red-500 mt-5">fail</p>
+    } -->
+<!-- <p class="p-3 bg-red-500 mt-5"></p> -->
+

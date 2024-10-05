@@ -1,0 +1,179 @@
+1. Movies
+Popular Movies
+Endpoint: /movie/popular
+Example: Get a list of popular movies.
+
+Now Playing
+Endpoint: /movie/now_playing
+Example: Get movies currently playing in theaters.
+
+Top Rated Movies
+Endpoint: /movie/top_rated
+Example: Get a list of top-rated movies.
+
+Upcoming Movies
+Endpoint: /movie/upcoming
+Example: Get upcoming movie releases.
+
+Movie Details
+Endpoint: /movie/{movie_id}
+Example: Get detailed information about a specific movie.
+
+Movie Trailers
+Endpoint: /movie/{movie_id}/videos
+Example: Get trailers, teasers, and video clips for a movie.
+
+Movie Credits
+Endpoint: /movie/{movie_id}/credits
+Example: Get cast and crew information for a movie.
+
+Movie Images
+Endpoint: /movie/{movie_id}/images
+Example: Get posters, backgrounds, and other media related to a movie.
+
+Movie Recommendations
+Endpoint: /movie/{movie_id}/recommendations
+Example: Get recommended movies based on a specific movie.
+
+2. TV Shows
+Popular TV Shows
+Endpoint: /tv/popular
+Example: Get a list of popular TV shows.
+
+Airing Today
+Endpoint: /tv/airing_today
+Example: Get a list of TV shows airing today.
+
+Top Rated TV Shows
+Endpoint: /tv/top_rated
+Example: Get a list of top-rated TV shows.
+
+TV Show Details
+Endpoint: /tv/{tv_id}
+Example: Get detailed information about a specific TV show.
+
+TV Show Episodes
+Endpoint: /tv/{tv_id}/season/{season_number}/episode/{episode_number}
+Example: Get detailed information about a specific episode in a TV show.
+
+TV Show Images
+Endpoint: /tv/{tv_id}/images
+Example: Get posters and backgrounds for a TV show.
+
+TV Show Recommendations
+Endpoint: /tv/{tv_id}/recommendations
+Example: Get TV show recommendations based on a specific show.
+
+3. People (Actors, Directors, etc.)
+Popular People
+Endpoint: /person/popular
+Example: Get a list of popular actors and celebrities.
+
+Person Details
+Endpoint: /person/{person_id}
+Example: Get detailed information about a person.
+
+Person Images
+Endpoint: /person/{person_id}/images
+Example: Get photos and images of a specific person.
+
+Person's Movie/TV Credits
+Endpoints:
+/person/{person_id}/movie_credits
+/person/{person_id}/tv_credits
+Example: Get a list of movies or TV shows in which the person has worked.
+
+4. Genres
+Movie Genres
+Endpoint: /genre/movie/list
+Example: Get a list of movie genres.
+
+TV Genres
+Endpoint: /genre/tv/list
+Example: Get a list of TV genres.
+
+5. Discover
+Discover Movies
+Endpoint: /discover/movie
+Example: Filter movies based on specific conditions like genre, year, rating, etc.
+
+Discover TV Shows
+Endpoint: /discover/tv
+Example: Filter TV shows based on specific conditions.
+
+6. Search
+Search Movies
+Endpoint: /search/movie
+Example: Search for movies by title.
+
+Search TV Shows
+Endpoint: /search/tv
+Example: Search for TV shows by title.
+
+Search People
+Endpoint: /search/person
+Example: Search for actors, directors, etc.
+
+7. Watch Providers
+Movie Watch Providers
+Endpoint: /movie/{movie_id}/watch/providers
+Example: Get streaming, rental, and purchase options for a movie.
+
+TV Show Watch Providers
+Endpoint: /tv/{tv_id}/watch/providers
+Example: Get streaming, rental, and purchase options for a TV show.
+
+8. Reviews
+Movie Reviews
+Endpoint: /movie/{movie_id}/reviews
+Example: Get reviews for a specific movie.
+
+TV Show Reviews
+Endpoint: /tv/{tv_id}/reviews
+Example: Get reviews for a specific TV show.
+
+9. Trending
+Trending Movies/TV Shows/People
+Endpoint: /trending/{media_type}/{time_window}
+Example: Get trending movies, TV shows, or people for the day or week.
+
+
+10. User Lists
+Get User Lists
+Endpoint: /account/{account_id}/lists
+Example: Get custom lists created by the user.
+
+
+11. Ratings
+Rate a Movie
+Endpoint: /movie/{movie_id}/rating
+Example: Submit a rating for a movie.
+
+
+12. Authentication and User Management
+Authentication
+Endpoint: /authentication/token/new
+Example: Use request tokens and session IDs for user-specific actions like adding ratings or creating lists.
+
+
+
+13. Guest Sessions
+Create Guest Session
+Endpoint: /authentication/guest_session/new
+Example: Allows a guest to perform certain actions without creating an account.
+
+
+
+14. Miscellaneous
+Keywords
+Endpoint: /keyword/{keyword_id}
+Example: Get movies or TV shows associated with a specific keyword.
+
+Collections
+Endpoint: /collection/{collection_id}
+Example: Get information about a collection of movies.
+
+Companies
+Endpoint: /company/{company_id}
+Example: Get information about production companies.
+

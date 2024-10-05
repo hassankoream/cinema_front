@@ -1,0 +1,19 @@
+.bg-main {
+    background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+    background-size: cover;
+    background-blend-mode: normal;
+    position: relative;
+  }
+  
+  .bg-main::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/asfalt.png') repeat;
+    opacity: 0.1;
+    pointer-events: none;
+  }
+  

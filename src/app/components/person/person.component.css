@@ -1,0 +1,43 @@
+/* Swiper Container */
+.swiper-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Swiper Wrapper */
+  .swiper-wrapper {
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Swiper Slide */
+  .swiper-slide {
+    min-width: 150px; /* Adjust according to the size of the show cards */
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  
+  /* Buttons */
+  .swiper-button-prev,
+  .swiper-button-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .swiper-button-prev {
+    left: 10px;
+  }
+  
+  .swiper-button-next {
+    right: 10px;
+  }
+  

@@ -1,0 +1,46 @@
+<section class="my-10">
+    <!-- Check if the watchList has items -->
+    <div *ngIf="favList && favList.length > 0" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+      
+      <!-- Loop through each movie in the favList -->
+      <div *ngFor="let show of favList" 
+           class="bg-slate-100 rounded-lg shadow-lg p-2 relative transition-transform duration-500 hover:scale-105 ">
+        
+           <!-- Movie Poster with Dynamic Type -->
+           <div [routerLink]="['/m/show-details', show.name ? 'tv' : 'movie', show.id]" 
+                class="h-52 overflow-hidden rounded-lg cursor-pointer">
+             
+             <img *ngIf="show.poster_path" 
+                  [src]="mainImageUrl + show.poster_path" 
+                  [alt]="show.name || show.title"
+                  class="w-full h-full object-cover">
+             
+             <img *ngIf="!show.poster_path" 
+                  src="../../../assets/images/angry-mac-boy-cinema.jpeg" 
+                  [alt]="show.name || show.title"
+                  class="w-full h-full object-cover">
+           </div>
+  
+        <!-- Rating with Circle Progress -->
+        <div class="relative -top-5 left-2">
+          <app-progress-circle [progress]="show.vote_average | percentage"></app-progress-circle>
+        </div>
+  
+        <!-- Movie Title, Release Date, and Share Button -->
+        <div class="mt-2 text-center">
+          <h3 class="text-md font-semibold truncate">{{ show.title || show.name | splitTitle }}</h3>
+          <p class="text-sm">{{ show.release_date  || show.first_air_date | date:'yyyy'}}</p>
+          <!-- <button (click)="showModal(movie.poster_path, movie.id)"
+                  class="text-[#1E90FF] mt-2 flex items-center justify-center">
+            <i class="fa-solid fa-share-alt mr-1"></i> Share
+          </button> -->
+        </div>
+      </div>
+    </div>
+  
+    <!-- Message if no favList items -->
+    <div *ngIf="favList && favList.length === 0" class="text-center">
+      <p>Your watchlist is empty.</p>
+    </div>
+  </section>
+  

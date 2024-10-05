@@ -1,0 +1,50 @@
+<section class="my-10">
+<!-- Main Content -->
+<div class="w-4/5 container mx-auto p-6">
+
+    <!-- Shows Section -->
+    <h1 class="text-4xl font-bold text-black mb-4">Shows</h1>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div *ngFor="let show of showList;"
+            class=" bg-slate-100 rounded-lg shadow-lg p-2 relative transition-transform duration-500 hover:scale-105">
+
+            <!-- Show Poster -->
+            <div  class="h-52 overflow-hidden rounded-lg">
+                <a *ngIf="show.poster_path" [routerLink]="['/m/show-details', show.media_type, show.id]">
+                    <img [src]="mainImageUrl + show.poster_path" [alt]="show.title"
+                    class="w-full h-full object-cover crp">
+                </a>
+                <a *ngIf="!show.poster_path" [routerLink]="['/m/show-details', show.media_type, show.id]">
+                    <img src="../../../assets/images/angry-mac-boy-cinema.jpeg" [alt]="show.title || show.name"
+                    class="w-full h-full object-cover crp">
+                </a>
+             
+                 
+            </div>
+
+            <!-- Rating -->
+            <div class="relative -top-5 left-2">
+                <!-- Dynamic Border Circle -->
+                <app-progress-circle [progress]="show.vote_average | percentage">
+                </app-progress-circle>
+            </div>
+
+            <!-- Show Title and Release Date -->
+            <div class="mt-2 text-center">
+                <h3 class="text-md font-semibold truncate ">{{ show.title||show.name| splitTitle }}</h3>
+                <p class="text-sm">{{ show.release_date || show.first_air_date | date:"yyyy"}}</p>
+             
+                <!-- <button (click)="showModal(show.poster_path, show.id)"
+                    class="text-[#1E90FF] mt-2 flex items-center justify-center">
+                    <i class="fa-solid fa-share-alt mr-1"></i> Share
+                </button> -->
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+</section>
+

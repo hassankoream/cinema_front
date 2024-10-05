@@ -1,0 +1,99 @@
+<!-- <nav class="flex justify-center items-center bg-lime-300">
+    <div class="w-10/12 mx-auto bg-red-200 flex justify-between items-center p-2 px-3">
+        <div><a routerLink="home">logo</a></div>
+        <div>
+            <ul class="flex gap-3 items-center justify-around">
+                <li><a routerLink="home">home</a></li>
+                <li><a routerLink="linked/social-club">social-club</a></li>
+                <li><a routerLink="m/movies">movies</a>
+                    <ul>
+                        <li><a routerLink="m/popular">popular</a></li>
+                    </ul>
+                </li>
+                
+                <li><a routerLink="m/tvshows">tv</a></li>
+                <li><a >logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav> -->
+<!-- Navbar -->
+<nav class="flex items-center p-4 bg-gray-900 shadow-lg relative z-20 w-full">
+  <!-- Logo Section -->
+  <div class="text-yellow-500 text-3xl font-extrabold flex items-center rounded-full w-20 h-20 crp">
+    <a routerLink="home"><img class="w-full rounded-full" src="assets/images/h_Egypt_logo2.jpeg" alt="logo"></a>
+  </div>
+
+  <!-- Navigation Links -->
+  <ul class="flex gap-8 items-center text-white text-sm ms-5">
+    <!-- Social Club -->
+    <!-- <li>
+      <a routerLink="linked/social-club" class="hover:text-yellow-500 transition-colors">
+        <i class="fa-solid fa-users mr-2"></i>Social Club
+      </a>
+    </li> -->
+
+    <!-- Movies Dropdown -->
+    <li class="relative">
+      <a class="hover:text-yellow-500 transition-colors cursor-pointer">
+        <i class="fa-solid fa-clapperboard mr-2"></i>Movies
+      </a>
+      <!-- Dropdown menu -->
+      <ul
+        class="dropdown-menu absolute opacity-0 invisible transition-all duration-300 ease-in-out bg-gray-800 text-white text-base rounded-lg shadow-lg mt-2 p-4 space-y-2">
+        <li><a [routerLink]="['m/movies', 'popular']" class="hover:text-yellow-500">Popular</a></li>
+        <li><a [routerLink]="['m/movies', 'now_playing']" class="hover:text-yellow-500">Now Playing</a></li>
+        <li><a [routerLink]="['m/movies', 'upcoming']" class="hover:text-yellow-500">Upcoming</a></li>
+        <li><a [routerLink]="['m/movies', 'top_rated']" class="hover:text-yellow-500">Top Rated</a></li>
+      </ul>
+    </li>
+
+    <!-- TV Shows Dropdown-->
+    <li class="relative">
+      <a class="hover:text-yellow-500 transition-colors cursor-pointer">
+        <i class="fa-solid fa-tv mr-2"></i>TV Shows
+      </a>
+      <ul
+        class="dropdown-menu absolute opacity-0 invisible transition-all duration-300 ease-in-out bg-gray-800 text-white text-base rounded-lg shadow-lg mt-2 p-4 space-y-2">
+        <li><a [routerLink]="['m/tvshows', 'popular']" class="hover:text-yellow-500">Popular</a></li>
+        <li><a [routerLink]="['m/tvshows', 'airing_today']" class="hover:text-yellow-500">Airing Today</a></li>
+        <li><a [routerLink]="['m/tvshows', 'on_the_air']" class="hover:text-yellow-500">on TV</a></li>
+        <li><a [routerLink]="['m/tvshows', 'top_rated']" class="hover:text-yellow-500">Top Rated</a></li>
+      </ul>
+    </li>
+    <!-- people -->
+    <li>
+      <a class="hover:text-yellow-500 transition-colors cursor-pointer">
+        <i class="fa-solid fa-users mr-2"></i>people
+      </a>
+         <!-- Dropdown menu -->
+         <ul class="dropdown-menu absolute opacity-0 invisible transition-all duration-300 ease-in-out bg-gray-800 text-white text-base rounded-lg shadow-lg mt-2 p-4 space-y-2">
+          <li><a [routerLink]="['m/people', 'popular']" class="hover:text-yellow-500">Popular</a></li>
+          <li><a [routerLink]="['m/people', 'trending']" class="hover:text-yellow-500 capitalize">trending</a></li>
+         
+        </ul>
+    </li>
+
+    <!-- User Dropdown -->
+    <li class="relative">
+      <a class="hover:text-yellow-500 transition-colors cursor-pointer">
+        <i class="fa-solid fa-user-circle mr-2"></i>User
+      </a>
+      <ul
+        class="dropdown-menu absolute opacity-0 invisible transition-all duration-300 ease-in-out bg-gray-800 text-white text-base rounded-lg shadow-lg mt-2 p-4 space-y-2">
+        <li><a routerLink="/m/watchlist" class="hover:text-yellow-500">Watchlist</a></li>
+        <li><a routerLink="/m/favourites" class="hover:text-yellow-500">Favorites</a></li>
+        <!-- <li><a class="hover:text-yellow-500">Settings</a></li> -->
+        <!-- Logout -->
+        <li>
+          <a (click)="_AuthenticationService.logOut()" class="hover:text-red-500 transition-colors cursor-pointer flex items-center px-1 gap-1">
+            <i class="fa-solid fa-right-from-bracket mr-2"></i><span>Logout</span>
+          </a>
+        </li>
+        <!-- <li><a (click)="toggleDarkMode()" class="hover:text-yellow-500 cursor-pointer">Dark Mode</a></li> -->
+      </ul>
+    </li>
+
+
+  </ul>
+</nav>

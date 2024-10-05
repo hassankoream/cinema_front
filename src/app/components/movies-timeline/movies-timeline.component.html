@@ -1,0 +1,79 @@
+<!--  loading screen -->
+
+
+
+
+
+@if (isLoading) {
+    <div class="flex  justify-center items-center"><div class="loader"></div></div>
+
+}
+
+<!-- posts area -->
+<div class=" container py-6 flex  justify-center items-center">
+
+
+
+
+
+    <div class="lg:w-96 w-full">
+        @for (post of postsList() ; track post._id) {
+
+        <!--  post -->
+        <div class="bg-white shadow-md rounded-lg mb-6 p-4">
+
+            <!-- Post Header -->
+            <div class="flex items-center justify-between mb-4 ">
+                <div class="flex items-center">
+                    <img class="w-12 h-12 rounded-full" [src]="post.user.photo" alt="User Avatar">
+                    <div class="ml-3">
+                        <h2 class="font-semibold text-lg">{{ post.user.name }}</h2>
+                        <p class="text-sm text-gray-600">{{ post.createdAt| date }}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Post Content -->
+            <div class="text-gray-800 mb-4 break-words">
+                {{ post.body| extractPostBody }}
+            </div>
+
+            <!-- Post Image -->
+             
+            <div class="mb-4">
+                <img class="rounded-lg w-full" [src]="post.body | extractImageUrl" alt="Post-Image">
+            </div>
+            
+
+
+            <!-- Post Actions -->
+            <div class="flex items-center justify-between text-gray-500 text-sm mb-4">
+                <div class="flex items-center ">
+
+                    <button #showComment class="focus:outline-none flex items-center">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M18 10c0 4.418-3.582 8-8 8a7.952 7.952 0 01-4.581-1.373L3 18l.662-2.635A7.952 7.952 0 012 10c0-4.418 3.582-8 8-8s8 3.582 8 8zm-9-3a1 1 0 000 2h4a1 1 0 100-2H9zm0 3a1 1 0 000 2h2a1 1 0 100-2H9z"
+                                    clip-rule="evenodd" />
+                            </svg> -->
+                        <!-- <span>{{ post.comments }} Comments</span> -->
+                        show comments
+                    </button>
+                </div>
+            </div>
+
+            <!-- Child Component: Comments -->
+            @defer (on interaction(showComment)) {<app-comments [postId]="post._id"></app-comments>}
+
+
+        </div>
+        }
+        <div class="search-results" infiniteScroll [infiniteScrollDistance]="1" (scrolled)="onScroll()"></div>
+    </div>
+
+
+
+
+    <app-arrowtop></app-arrowtop>
+</div>

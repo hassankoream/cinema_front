@@ -1,0 +1,76 @@
+<section *ngIf="showDetails && showCredits" class="my-10">
+
+    <!-- Show Details Section -->
+    <div class="bg-orange-400 p-5 flex items-center gap-4">
+        <div class="w-1/5">
+            <img *ngIf="showDetails.poster_path" class="w-full h-auto" [src]="mainImageUrl + showDetails.poster_path"
+                [alt]="showDetails.title || showDetails.name">
+            <img *ngIf="!showDetails.poster_path" class="w-full h-auto" src="../../../assets/images/angry-mac-boy-cinema.jpeg"
+                [alt]="showDetails.title || showDetails.name">
+        </div>
+
+        <div class="text-black w-4/5">
+            <h1 class="text-4xl font-bold">{{showDetails.title || showDetails.name}} <span>({{showDetails.release_date
+                    || showDetails.first_air_date | date:'yyyy'}})</span></h1>
+            <span class="inline-block mt-2 p-2 text-lg bg-slate-200 hover:bg-slate-300 cursor-pointer duration-200 rounded-md shadow-md" (click)="goBackToMain(showType, showID)"><i class="fa-solid fa-arrow-left mx-1"></i>Back to Details</span>
+        </div>
+    </div>
+
+    <!-- Cast and Crew Details -->
+    <div class="container mx-auto bg-white shadow-md mt-10 p-6">
+
+        <!-- Cast Section -->
+        <div *ngIf="castCredits && castCredits.length > 0" class="cast">
+            <h3 class="text-2xl font-semibold mb-4">
+                Cast
+                <span class="text-sm text-gray-500">({{ castCredits.length > 50 ? 50 : castCredits.length }}{{
+                    castCredits.length > 50 ? '+' : '' }})</span>
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div *ngFor="let credit of castCredits.slice(0,50)"
+                    class="flex items-center gap-4 bg-gray-100 p-4 rounded-md crp duration-300 hover:scale-105 " [routerLink]="['/m/person', credit.id]">
+                    <div class="w-16 h-16">
+                        <img *ngIf="credit.profile_path" class="w-full h-full rounded-full object-cover"
+                            [src]="mainImageUrl + credit.profile_path" [alt]="credit.name">
+                        <img *ngIf="!credit.profile_path" class="w-full h-full rounded-full object-cover"
+                            src="../../../assets/images/lost_in_Giza.jpeg" [alt]="credit.name">
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-medium">{{credit.name}}</h4>
+                        <p *ngIf="showType=='movie'" class="text-gray-600">{{credit.character}}</p>
+                        <p *ngIf="showType=='tv'" class="text-gray-600">{{credit.roles[0].character}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      <!-- Crew Section -->
+<div *ngIf="crewCredits && crewCredits.length > 0" class="crew mt-10 border-t-4 border-red-500">
+    <h3 class="text-2xl font-semibold mb-4">
+      Crew 
+      <span class="text-sm text-gray-500">({{ crewCredits.length > 50 ? 50 : crewCredits.length }}{{ crewCredits.length > 50 ? '+' : '' }})</span>
+    </h3>
+  
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let crew of crewCredits.slice(0,50)" class="flex items-center gap-4 bg-gray-100 p-4 rounded-md crp duration-300 hover:scale-105" [routerLink]="['/m/person', crew.id]">
+        
+        <!-- Profile Picture or Placeholder -->
+        <div class="w-16 h-16">
+          <img *ngIf="crew.profile_path" class="w-full h-full rounded-full object-cover" [src]="mainImageUrl + crew.profile_path" [alt]="crew.name">
+          <img *ngIf="!crew.profile_path" class="w-full h-full rounded-full object-cover" src="../../../assets/images/lost_in_Giza.jpeg" [alt]="crew.name">
+        </div>
+  
+        <!-- Crew Details -->
+        <div>
+          <h4 class="text-lg font-medium">{{ crew.name }}</h4>
+          <p class="text-gray-600">{{ crew.job }}</p>
+          <!-- <p class="text-gray-400 text-sm italic">{{ crew.department }}</p> Optional: Department -->
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+
+    </div>
+</section>

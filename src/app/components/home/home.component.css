@@ -1,0 +1,42 @@
+header {
+    background: linear-gradient(rgba(3, 37, 65, 0.8), rgba(3, 37, 65, 0.8)), url(https://image.tmdb.org/t/p/original/r6Ghtw9ENhTXfeUsd1Al20ZAvX.jpg);
+    background-size: cover;
+    background-position: 10% 10%;
+    min-height: 300px;
+    
+ 
+}
+.trending{
+    background: url(../../../assets/images/trending-bg-39afc2a5f77e31d469b25c187814c0a2efef225494c038098d62317d923f8415.svg);
+    background-size: cover;
+    background-position: top;
+}
+.trailers{
+    background: linear-gradient(rgba(3, 37, 65, 0.8), rgba(3, 37, 65, 0.8)), url(https://image.tmdb.org/t/p/original/r6Ghtw9ENhTXfeUsd1Al20ZAvX.jpg);
+    background-size: cover;
+    background-position: top;
+}
+
+.title{
+    font-size: 50px;
+    font-weight: 900;
+}
+nav{
+    background-color: rgba(0,0,0,0.6)
+}
+.bg-new{
+    /* background-color: rgba(17, 24, 39, 0.9); */
+}
+/* trending-filter.component.css */
+button {
+    transition: background-color 0.3s ease;
+  }
+  
+  button.active {
+    background-color: yellow; /* Customize your active style */
+    color: black; /* Customize text color when active */
+  }
+
+  h2{
+    margin: 0;
+  }

@@ -1,0 +1,9 @@
+/* .auth{
+    background: url(../../../assets/images/net_log_x.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+} */
+.register-container {
+    @apply mb-5 mt-10 p-20 shadow-sm rounded-sm mx-auto
+}

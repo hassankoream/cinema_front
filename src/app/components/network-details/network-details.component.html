@@ -1,0 +1,38 @@
+<section class="my-10">
+<!-- Network Details Section -->
+<div *ngIf="networkDetails" class="bg-white shadow-md rounded-lg p-6 max-w-md mx-auto">
+  
+    <!-- Logo and Name -->
+    <div class="flex items-center mb-4">
+      <img *ngIf="networkDetails.logo_path" 
+           [src]="mainImageUrl + networkDetails.logo_path" 
+           [alt]="networkDetails.name" 
+           class="w-20 h-auto mr-4">
+      <h2 class="text-xl font-semibold text-gray-800">{{ networkDetails.name }}</h2>
+    </div>
+  
+    <!-- Headquarters -->
+    <div *ngIf="networkDetails.headquarters" class="mb-2">
+      <h3 class="font-medium text-gray-600">Headquarters:</h3>
+      <p class="text-gray-700">{{ networkDetails.headquarters }}</p>
+    </div>
+  
+    <!-- Homepage -->
+    <div *ngIf="networkDetails.homepage" class="mb-2">
+      <h3 class="font-medium text-gray-600">Homepage:</h3>
+      <a [href]="networkDetails.homepage" target="_blank" 
+         class="text-blue-500 hover:underline">{{ networkDetails.homepage }}</a>
+    </div>
+  
+    <!-- Origin Country -->
+    <div *ngIf="networkDetails.origin_country" class="mb-2">
+      <h3 class="font-medium text-gray-600">Origin Country:</h3>
+      <p class="text-gray-700">{{ networkDetails.origin_country }}</p>
+    </div>
+    
+  </div>
+
+  
+</section>
+
+  

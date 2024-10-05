@@ -1,0 +1,50 @@
+nav {
+    @apply bg-gray-900 shadow-lg;
+  }
+  
+  ul {
+    @apply flex gap-8 items-center text-white ;
+    font-size: small;
+  }
+  
+  li a {
+    @apply transition-colors;
+  }
+  
+  li {
+    @apply relative;
+  }
+  
+  /* Dropdown */
+  ul li ul {
+    @apply absolute bg-gray-800 text-white text-base rounded-lg shadow-lg mt-2 p-4;
+  }
+  
+  ul li ul li a {
+    @apply hover:text-yellow-500 transition-colors;
+  }
+  
+  /* Initially hidden dropdown */
+  nav li ul {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    top: 100%; /* Adjusted to align below the menu item */
+    left: 0;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 999;
+  }
+  
+  /* Show dropdown on hover */
+  nav li:hover ul {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Dropdown menu styling */
+  .dropdown-menu {
+    padding: 10px;
+    display: block; /* Ensure it stays in one column */
+  }
+  

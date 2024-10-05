@@ -1,0 +1,54 @@
+<swiper-container [slidesPerView]="slidesNum" [spaceBetween]="10" [scrollbar]="true" [loop]="true">
+<!-- fixed width help with breakpoints collapse -->
+
+  <swiper-slide *ngFor="let show of shows"
+    class="w-40 slide min-w-40  rounded-lg  transition-transform duration-500 mb-10"
+   
+
+    >
+    @if (show.name) {
+      <div class="p-1 crp"  [routerLink]="['/m/show-details' , show.media_type || 'tv', show.id]">
+        @if (show.backdrop_path) { <img [src]="'https://image.tmdb.org/t/p/w780/'+show.backdrop_path" alt="Movie Image"
+        class="rounded-lg h-56 object-cover" />}
+       
+        @else {<img src="../../../assets/images/angry-mac-boy-cinema.jpeg" alt="Movie Image"
+        class="rounded-lg h-56 object-cover"/>}
+      </div>
+    
+    }
+    @else {
+      <div class="p-1 crp"  [routerLink]="['/m/show-details' , show.media_type || 'movie', show.id]">
+        @if (show.backdrop_path) { <img [src]="'https://image.tmdb.org/t/p/w780/'+show.backdrop_path" alt="Movie Image"
+        class="rounded-lg h-56 object-cover" />}
+       
+        @else {<img src="../../../assets/images/angry-mac-boy-cinema.jpeg" alt="Movie Image"
+        class="rounded-lg h-56 object-cover"/>}
+      </div>
+    
+    }
+   
+    
+    <div class="">
+      <div class="relative -top-5 left-2 mb-2 text-black">
+        <app-progress-circle
+        [progress]="show.vote_average|percentage"
+        >
+        </app-progress-circle>
+      </div>
+      <div *ngIf="displayGenres">
+        <!-- <div *ngFor="let genre of show.genres; let i = index">
+          <span class="rounded-lg text-sm hover:text-gray-300 duration-150 crp">
+            {{ genre.name }}
+          </span>
+
+          <ng-container *ngIf="i !== show.genres.length - 1">,</ng-container>
+        </div> -->
+      </div>
+      <h3 class="text-sm font-black text-black crp hover:text-gray-700 duration-200 title">{{ show.title || show.name }}</h3>
+      <p class="text-sm text-gray-400">{{ show.release_date || show.first_air_date| date:'mediumDate' }}</p>
+    </div>
+  </swiper-slide>
+
+
+
+</swiper-container>

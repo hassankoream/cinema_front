@@ -1,0 +1,145 @@
+<section class="relative w-full xl:w-4/5 mx-auto ">
+
+    <header class=" flex justify-center items-center mb-5 ">
+        <!-- Welcome Section -->
+        <div class="flex flex-col ">
+            <h1 class="title text-white mb-4 ">Welcome</h1>
+            <p class="text-2xl text-white mb-8">Millions of movies, TV shows and people to discover. Explore now.</p>
+
+            <!-- Search Bar -->
+            <div class="relative w-full">
+                <input [(ngModel)]="searchTerm" (input)="searchItem(searchTerm)" type="text"
+                    placeholder="Search for movie or TV show.."
+                    class="w-full py-3 px-5 pr-28 rounded-full text-black outline-none text-lg">
+                <button
+                    class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-yellow-400 to-pink-500 px-6 py-2 rounded-full text-white text-lg font-semibold">
+                    Search
+                </button>
+            </div>
+
+            <!-- Search Results -->
+            <div *ngIf="searchResults.length > 0" class="mt-4 bg-white p-4 rounded-lg shadow-lg max-h-80 overflow-auto">
+                <ul>
+                    @for (result of searchResults; track result.id) {
+                    <li class="mb-4 flex items-start space-x-4">
+                        <a *ngIf="result.media_type == 'tv' || result.media_type == 'movie'" class="cursor-pointer"
+                            [routerLink]="['/m/show-details' , result.media_type, result.id]">
+                            <img *ngIf="result.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + (result.poster_path)"
+                                alt="{{ result.name || result.title }}" class="w-16 h-24 object-cover rounded">
+                            <img *ngIf="!result.poster_path" src="../../../assets/images/angry-mac-boy-cinema.jpeg"
+                                alt="{{ result.name || result.title }}" class="w-16 h-24 object-cover rounded">
+                        </a>
+                        <a *ngIf="result.media_type == 'person'" class="cursor-pointer"
+                            [routerLink]="['/m/person', result.id]">
+                            <img *ngIf="result.profile_path" [src]="'https://image.tmdb.org/t/p/w500' + (result.profile_path)"
+                                alt="{{ result.name }}" class="w-16 h-24 object-cover rounded">
+                            <img *ngIf="!result.profile_path" src="../../../assets/images/lost_in_Giza.jpeg"
+                                alt="{{ result.name }}" class="w-16 h-24 object-cover rounded">
+                        </a>
+
+                        <div>
+                            @if (result.name || result.title) { <h3 class="text-lg font-bold">{{ result.name ||
+                                result.title }}</h3>}
+                            <div class="flex items-center space-x-4 mt-2">
+                                @if (result.vote_average) {
+                                <app-progress-circle [progress]="result.vote_average | percentage"></app-progress-circle>
+
+                                <!-- <div
+                                    class="flex items-center bg-yellow-100 text-yellow-700 text-sm font-semibold px-2 py-1 rounded-lg shadow">
+                                    <svg class="w-4 h-4 mr-1 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.14 3.49a1 1 0 00.95.69h3.672c.969 0 1.371 1.24.588 1.81l-2.972 2.16a1 1 0 00-.364 1.118l1.14 3.49c.3.921-.755 1.688-1.54 1.118L10 13.011l-2.975 2.16c-.784.57-1.838-.197-1.538-1.118l1.14-3.49a1 1 0 00-.364-1.118L3.291 8.927c-.783-.57-.38-1.81.588-1.81h3.672a1 1 0 00.95-.69l1.14-3.49z" />
+                                    </svg>
+                                    <p>{{ result.vote_average | percentage }}%</p>
+                                </div> -->
+                                }
+
+                                @if (result.media_type) {
+                                <div
+                                    class="bg-blue-100 text-blue-700 text-sm font-semibold capitalize px-2 py-1 rounded-lg shadow">
+                                    <p>{{ result.media_type }}</p>
+                                </div>
+                                }
+                            </div>
+
+
+                        </div>
+                    </li>
+                    }
+
+                </ul>
+            </div>
+
+            <!-- No results message -->
+            <div *ngIf="searchResults.length === 0 && searchTerm" class="mt-4 text-red-500 text-lg">
+                No results found for "{{ searchTerm }}".
+            </div>
+
+
+
+        </div>
+
+
+    </header>
+    <!-- trending per day or week -->
+    <div class="p-6 bg-new text-white ">
+        <!-- Trending Section -->
+        <div class="flex items-center mb-4 gap-4">
+            <h2 class="text-2xl font-bold text-black">Trending</h2>
+            <!-- Time Filter (Day/Week) -->
+            <div class="flex items-center space-x-2">
+                <button (click)="getTrends('all', 'day', 1)" [ngClass]="{
+    'px-4 py-2 rounded-full text-sm': true,
+    'bg-gray-800 text-white': !isActiveTrend('day'),
+    ' active': isActiveTrend('day')
+  }">
+                    Day
+                </button>
+                <button (click)="getTrends('all', 'week', 1)" [ngClass]="{
+    'px-4 py-2 rounded-full text-sm': true,
+    'bg-gray-800 text-white': !isActiveTrend('week'),
+    'active': isActiveTrend('week')
+  }">
+                    Week
+                </button>
+            </div>
+
+        </div>
+        <div class="trending"><app-movie-slider [slidesNum]="9" [shows]="trendingShows"></app-movie-slider></div>
+
+
+    </div>
+
+    <!--  videos per tv or movie -->
+    <div class="p-6 bg-new text-white">
+        <!-- Trending Section -->
+        <div class="flex items-center mb-4 gap-4">
+            <h2 class="text-2xl font-bold text-black">Latest Trailers
+            </h2>
+            <!-- Time Filter (Day/Week) -->
+            <div class="flex items-center space-x-2">
+                <button (click)="getTrailersLists('tv', 'week', 1)" [ngClass]="{
+    'px-4 py-2 rounded-full text-sm': true,
+    'bg-gray-800 text-white': !isActiveTrailer('tv'),
+    ' active': isActiveTrailer('tv')
+  }">
+                    Tv-shows
+                </button>
+                <button (click)="getTrailersLists('movie', 'week', 1)" [ngClass]="{
+    'px-4 py-2 rounded-full text-sm': true,
+    'bg-gray-800 text-white': !isActiveTrailer('movie'),
+    'active': isActiveTrailer('movie')
+  }">
+                    Movies
+                </button>
+            </div>
+
+        </div>
+
+        <div class=""><app-trailer-slider [shows]="trailersShows"></app-trailer-slider></div>
+
+
+    </div>
+
+</section>

@@ -1,0 +1,403 @@
+@if (showDetails) {
+
+<!-- Details menu navigation -->
+
+<section></section>
+
+<!-- details -->
+<canvas #imageCanvas style="display:none;"></canvas>
+
+<section class="w-full text-white p-5 my-2" [ngStyle]="{
+    'background-image': imageUrl ? 'linear-gradient(' + extractedColor + ', rgba(0, 0, 0, 0.5)), url(' + imageUrl + ')' : 'none',
+
+  'background-size': 'cover',
+  'background-position': 'center',
+  'background-repeat': 'no-repeat'
+}">
+  <div class="flex flex-col md:flex-row items-center md:items-start mx-auto gap-8 w-11/12 ">
+
+
+
+    <!-- Poster Section -->
+    <div class=" lg:w-1/4 md:w-1/3 w-1/2 ">
+      <img *ngIf="showDetails.poster_path" [src]=" mainImageUrl + showDetails.poster_path" alt="{{ showDetails.title || showDetails.name}}" class="rounded-lg shadow-lg" />
+      <img *ngIf="!showDetails.poster_path" src="../../../assets/images/angry-mac-boy-cinema.jpeg" alt="{{ showDetails.title || showDetails.name}}" class="rounded-lg shadow-lg" />
+      <div [routerLink]="['/m/Theater', showType, showID]"
+        class="bg-violet-300 w-full p-4 text-center text-black crp capitalize font-semibold text-lg hover:bg-sky-900 hover:text-white duration-300">
+        watch now
+      </div>
+     
+    </div>
+
+    <!-- Details Section -->
+    <div class=" lg:w-3/4 md:w-2/3 w-full">
+      <!-- 1 -->
+      <div class="flex justify-start items-center ">
+        <h1 class=" text-6xl font-black m-0">{{ showDetails.title || showDetails.name }} <span
+            class="text-4xl text-gray-300 font-normal">({{ showDetails.release_date||showDetails.first_air_date| date:
+            'yyyy' }})</span></h1>
+
+      </div>
+      <!-- 2 -->
+      <div class="flex items-center justify-start gap-3">
+        <div>
+          <span>({{ showDetails.origin_country[0] }})</span>
+          {{ showDetails.release_date||showDetails.first_air_date| date: 'mediumDate' }}
+
+        </div>
+
+        <!-- Genres -->
+
+
+        <div class="flex flex-wrap">
+          <div *ngFor="let genre of showDetails.genres; let i = index">
+            <span class="rounded-lg text-sm hover:text-gray-300 duration-150 crp">
+              {{ genre.name }}
+            </span>
+
+            <ng-container *ngIf="i !== showDetails.genres.length - 1">,</ng-container>
+          </div>
+
+        </div>
+
+        @if (showDetails.runtime) { <div>{{showDetails.runtime | toHour}}</div>}
+
+
+      </div>
+      <!-- 3 -->
+      <div class="flex items-center justify-start gap-3 mt-10">
+
+        <div class="text-black crp"> <app-progress-circle [progress]="showDetails.vote_average| percentage"
+            [paddingValue]="30" [fontSizeValue]="20"></app-progress-circle></div>
+        <div class="flex flex-col text-lg"><span>User</span><span>Score</span></div>
+
+
+      </div>
+      <!-- 4 -->
+      <div class="flex items-center justify-start gap-3 mt-4">
+        <!-- <span
+          class="crp rounded-full bg-blue-800 text-white p-4 w-10 h-10 flex justify-center items-center me-4 text-sm"><i
+            class="fa-solid fa-list"></i>
+          </span> -->
+        <span 
+        (click)="addToFavorites()"
+        [ngClass]="{'text-red-600': _FireStoreService.isInFavorites(), 'text-white': !_FireStoreService.isInFavorites()}" 
+          class="crp rounded-full bg-blue-800 text-white p-4 w-10 h-10 flex justify-center items-center me-4 text-sm"><i
+            class="fa-solid fa-heart"></i>
+          </span>
+        <span
+         (click)="addToWatchlist()"
+         [ngClass]="{'text-green-500': _FireStoreService.isInWatchlist(), 'text-white': !_FireStoreService.isInWatchlist()}" 
+        class="crp rounded-full bg-blue-800 p-4 w-10 h-10 flex justify-center items-center me-4 text-sm">
+          <i class="fa-solid fa-bookmark"></i>
+        </span>
+        <div (click)="openModal(showDetails)" class="text-white flex justify-center items-center gap-2 text-lg crp">
+          <span><i class="fa-solid fa-play"></i></span>
+          <p class="capitalize">Play trailer</p>
+          <span *ngIf="noTrailers" class="mx-3 text-white text-lg bg-black p-1">
+            No trailers found.
+          </span>
+        </div>
+
+      </div>
+
+
+      <!-- 5 -->
+      <div class="flex items-center justify-start mt-4">
+        <div class="flex flex-col">
+          @if (showDetails.tagline) {<div class=" text-lg mb-2 text-gray-300">{{ showDetails.tagline }}</div>}
+
+          <span class="text-white text-xl font-bold">Overview</span>
+          <div class="text-lg mb-4">{{ showDetails.overview }}</div>
+        </div>
+
+      </div>
+
+
+      <!-- 6 -->
+      @if (showType=='tv') {
+      <div class="grid grid-cols-3 ">
+        @for (creator of showDetails.created_by; track creator.id) {
+        <div class="col flex flex-col">
+          <a [routerLink]="['/m/person', creator.id]"><span class="crp">{{creator.name}}</span></a>
+          <span>creator</span>
+        </div>
+
+        }
+      </div>
+
+      }
+
+    </div>
+  </div>
+
+</section>
+
+
+
+
+
+
+<div class="flex mx-auto w-11/12 mt-5">
+
+  <div class="w-2/3 flex flex-col overflow-hidden">
+
+
+    <!-- sections -->
+
+    <!-- cast&crew -->
+    <section *ngIf="showCredits" class="mb-5 border-b-2 border-gray-200 pb-5">
+      <h2 *ngIf="showType=='tv'">Series Cast</h2>
+      <h2 *ngIf="showType=='movie'">Top Billed Cast</h2>
+
+      <app-cast-slider [slidesNum]="6" [showCredits]="showCredits"></app-cast-slider>
+
+      <span [routerLink]="['/m/show-details', showType, showDetails.id, 'cast&crew']" class="mt-5 capitalize crp font-medium hover:text-gray-600 duration-150 inline-block">full cast and
+        crew</span>
+    </section>
+
+    <!-- seasons if tv -->
+    <section *ngIf="showDetails.seasons && showDetails.seasons.length > 1" class="mb-5 border-b-2 border-gray-200 pb-5">
+      <h2 *ngIf="showDetails.status == 'Returning Series'" class=" font-medium text-black text-lg">Current Season</h2>
+      <h2 *ngIf="showDetails.status == 'Ended'" class=" font-medium text-black text-lg">last Season</h2>
+
+      <div
+        class="bg-slate-100 border-1 shadow-lg rounded-md grid lg:grid-cols-12 md:grid-cols-8 items-center p-2 gap-3">
+        <!-- poster -->
+        <div class="lg:col-span-3 md:col-span-3">
+          <img class="w-full" [src]="mainImageUrl + showDetails.seasons[showDetails.seasons.length-1].poster_path"
+            [alt]="showDetails.seasons[showDetails.seasons.length-1].name">
+        </div>
+        <!-- details -->
+        <div class="lg:col-span-8 md:col-span-4">
+          <h2 class="font-medium mt-4">{{ showDetails.seasons[showDetails.seasons.length-1].name }}</h2>
+          <div class="flex gap-1 items-center">
+            <span class="p-1 bg-blue-900 text-white text-sm rounded-md"><i class="fa-solid fa-star me-1"></i>{{
+              showDetails.seasons[showDetails.seasons.length-1].vote_average | percentage }}%</span>
+            <span>{{ showDetails.seasons[showDetails.seasons.length-1].air_date | date: 'yyyy' }}</span>
+            <span class=" text-[4px] font-bold"><i class="fa-solid fa-circle"></i></span>
+            <span>{{ showDetails.seasons[showDetails.seasons.length-1].episode_count }} Episodes</span>
+          </div>
+          <div class="my-6">
+            <p class="text">{{ showDetails.seasons[showDetails.seasons.length-1].overview }}</p>
+          </div>
+          <div>
+            <ng-container *ngIf="showDetails.next_episode_to_air?.episode_number">
+              <span class="me-3">Upcoming <span class="underline">Episode: {{
+                  showDetails.next_episode_to_air.episode_number }}</span></span>
+              <span>date: {{ showDetails.next_episode_to_air.air_date | date: 'dd/MM/yyyy' }}</span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+     
+    </section>
+
+    <!-- social (reviews) -->
+    <section *ngIf="showReviews">
+      <div class="flex items-center justify-between">
+        <h2 class=" font-medium text-black text-lg me-10">Social</h2>
+        <div class="relative flex flex-col md:flex-row md:gap-3 items-center justify-between">
+          <h2 class=" border-b-4 border-black">
+            <span class="font-medium text-black text-lg">Reviews</span>
+            <span *ngIf="showReviews">({{ showReviews.total_results }})</span>
+          </h2>
+          <div>
+            <button class="mx-2" (click)="prevReview()"><i class="fa-solid fa-arrow-left"></i> prev</button>
+            <button class="mx-2" (click)="nextReview()">next <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- reviews -->
+      <div *ngIf="review && showReviews.results.length > 0; else noReviews"
+        class="mt-3 bg-slate-100 border-1 shadow-lg rounded-md p-2 gap-3">
+        <div class="flex items-center gap-5 mb-3">
+          <!-- profile pic -->
+          <div>
+            <img *ngIf="review.author_details.avatar_path" class="w-10 h-10 rounded-full"
+              [src]="mainImageUrl + review.author_details.avatar_path" [alt]="review.author_details.username">
+            <span *ngIf="!review.author_details.avatar_path"
+              [ngStyle]="{ 'background-color': getColorForUsername(review.author_details.username) }"
+              class="w-10 h-10 rounded-full bg-amber-400 p-4 flex justify-center items-center">
+              <span>{{ review.author_details.username.charAt(0).toUpperCase() }}</span>
+            </span>
+          </div>
+          <!-- meta -->
+          <div>
+            A review by {{ review.author_details.username }}
+            ({{ currentStep+1 }}/{{ showReviews.total_results }})
+            <div>
+              <span *ngIf="review.author_details.rating" class="p-1 bg-blue-900 text-white text-[10px] rounded-md">
+                <i class="fa-solid fa-star me-1"></i>{{ review.author_details.rating | percentage }}%
+              </span>
+              Written by {{ review.author_details.username }} on {{ review.created_at | date: 'MMMM d, y' }}
+            </div>
+          </div>
+        </div>
+        <div>
+          {{ showFullContent ? review.content : getTruncatedContent(review.content) }}
+          <span *ngIf="isContentLong(review.content)" (click)="toggleContent()" class="text-blue-500 cursor-pointer">
+            {{ showFullContent ? 'Read Less' : 'Read More' }}
+          </span>
+        </div>
+      </div>
+      <ng-template #noReviews>
+        <p>We don't have any reviews for {{ showDetails.name || showDetails.title }}. Would you like to <span
+            class="hover:text-gray-600 crp duration-100">write one?</span></p>
+      </ng-template>
+    </section>
+
+    <!-- Recommendations -->
+    <section *ngIf="showRecommendations && showRecommendations.length > 0" class="mt-5">
+      <h2 class=" font-medium text-black text-lg me-10">Recommendations</h2>
+      <div class="bg-slate-100 border-1 shadow-lg rounded-md p-2">
+        <app-movie-slider [slidesNum]="3" [shows]="showRecommendations"></app-movie-slider>
+      </div>
+    </section>
+
+    <!-- related -->
+    <section *ngIf="showRelated && showRelated.length > 0" class="mt-5">
+      <h2 class=" font-medium text-black text-lg me-10 capitalize">Related</h2>
+      <div class="bg-slate-100 border-1 shadow-lg rounded-md p-2">
+        <app-movie-slider [slidesNum]="3" [shows]="showRelated"></app-movie-slider>
+      </div>
+      <!-- <span class="capitalize mt-5 hover:text-gray-600 duration-150 crp inline-block">view all similar shows</span> -->
+    </section>
+
+  </div>
+
+
+  <!-- side div (exIDs, facts, keywords, collection) -->
+  <div class="side-section w-1/3 bg-slate-50 p-5 rounded-lg shadow-lg">
+    <!-- exIDs -->
+    <ng-container *ngIf="showExternalIDs">
+      <div class="text-lg flex gap-5 items-center mb-4">
+        <a [href]="'https://www.facebook.com/' + showExternalIDs.facebook_id" target="_blank"
+          class="text-black hover:text-gray-700">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a [href]="'https://x.com/' + showExternalIDs.twitter_id" target="_blank"
+          class="text-black hover:text-gray-700">
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+        <a [href]="'https://www.instagram.com/' + showExternalIDs.instagram_id" target="_blank"
+          class="text-black hover:text-gray-700">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a [href]="showDetails.homepage" target="_blank" class="text-black hover:text-gray-700">
+          <i class="fa-solid fa-link"></i>
+        </a>
+      </div>
+    </ng-container>
+
+    <!-- facts -->
+    <div>
+      <ng-container *ngIf="showDetails.first_air_date || showDetails.release_date">
+        <h2 class="text-xl font-medium text-black mb-2">Facts</h2>
+        <div class=" p-4 mb-4">
+          <div class="mb-2">
+            <h3 class="font-semibold text-black">Status</h3>
+            <p class="text-black">{{ showDetails.status }}</p>
+          </div>
+          <div class="mb-2" *ngIf="showDetails.networks?.length">
+            <h3 class="font-semibold text-black">Networks</h3>
+            
+            <!-- Loop over networks -->
+            <div *ngFor="let network of showDetails.networks" class="flex items-center my-2 gap-3 crp"
+            
+             [routerLink]="['/m/network', network.id]">
+              <img class="w-20 h-auto" 
+                   [src]="mainImageUrl + network.logo_path" 
+                   [alt]="network.name" 
+                   *ngIf="network.logo_path">
+
+            </div>
+
+
+          </div>
+          
+          <div class="mb-2" *ngIf="showDetails.type">
+            <h3 class="font-semibold text-black">Type</h3>
+            <p class="text-black">{{ showDetails.type }}</p>
+          </div>
+          <div class="mb-2">
+            <h3 class="font-semibold text-black">Original Language</h3>
+            <p class="text-black">{{ showDetails.original_language }}</p>
+          </div>
+          <ng-container>
+            <div class="mb-2" *ngIf="showDetails.budget>0">
+              <h3 class="font-semibold text-black">Budget</h3>
+              <p class="text-black">{{ showDetails.budget | formatAmount:'USD' }} </p>
+
+            </div>
+            <div class="mb-2" *ngIf="showDetails.revenue>0">
+              <h3 class="font-semibold text-black">Revenue</h3>
+              <p class="text-black">{{ showDetails.revenue | formatAmount:'USD' }}</p>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+
+
+    <!-- keywords -->
+
+
+    <div class="mt-10" *ngIf="showKeywords && showKeywords.length > 0">
+      <h2 class="text-xl font-medium text-black mb-2">Keywords</h2>
+      <div class="flex flex-wrap gap-3">
+        @for (keyword of showKeywords; track keyword.id) {
+        <ng-container>
+          <a [routerLink]="['/m/keyword', keyword.id+'-'+keyword.name, showType]">
+            <span class="bg-slate-200 py-1 px-2 rounded-md shadow-sm text-black text-sm">
+              {{ keyword.name }}
+            </span>
+          </a>
+
+        </ng-container>
+        }
+      </div>
+
+    </div>
+
+
+    <!-- collection -->
+
+    <div *ngIf="showDetails.belongs_to_collection && showDetails.belongs_to_collection !== null" class="mt-10">
+      <h2 class="text-xl font-medium text-black mb-2 capitalize">collection</h2>
+      <div class="bg-slate-100 crp hover:scale-105 duration-300 "  [routerLink]="['/m/show-details', showType, showDetails.id, 'collection', showDetails.belongs_to_collection.id]">
+        <div *ngIf="showDetails.belongs_to_collection.poster_path" class="rounded-md shadow-md w-40 object-cover p-1 mx-auto">
+          <img [src]="mainImageUrl+showDetails.belongs_to_collection.poster_path"
+            [alt]="showDetails.belongs_to_collection.name">
+
+        </div>
+        <div *ngIf="!showDetails.belongs_to_collection.poster_path" class="rounded-md shadow-md w-40 object-cover p-1 mx-auto">
+          <img src="../../../assets/images/angry-mac-boy-cinema.jpeg"
+            [alt]="showDetails.belongs_to_collection.name">
+
+        </div>
+        <h3 class=" text-center ">{{ showDetails.belongs_to_collection.name}}</h3>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+  <!-- Modal Component -->
+  <app-show-modal *ngIf="selectedMovie" [youtubeUrl]="selectedMovieUrl" [movie]="selectedMovie"  (close)="closeModal()">
+  </app-show-modal>
+
+
+
+
+
+}

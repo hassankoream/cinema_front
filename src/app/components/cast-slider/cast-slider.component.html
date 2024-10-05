@@ -1,0 +1,42 @@
+<swiper-container [slidesPerView]="slidesNum" [spaceBetween]="10" [scrollbar]="true" [loop]="true" 
+class="">
+
+@for (credit of showCredits.cast| slice:0:9; track credit.id) {
+  <swiper-slide class="w-40 min-w-40 rounded-lg transition-transform duration-500 group">
+    <div class="mb-10 p-1 credit-item bg-slate-100 rounded-md shadow-md overflow-hidden">
+      <div [routerLink]="['/m/person', credit.id]" class="crp relative w-full h-48">
+        <!-- Check if credit profile exists -->
+        <img *ngIf="credit.profile_path; else backUp" 
+             [src]="mainImageUrl+credit.profile_path" 
+             [alt]="credit.name"
+             class="w-full h-full object-cover rounded-lg transform transition-transform duration-500 group-hover:scale-105 group-hover:translate-y-1">
+        <!-- Fallback placeholder -->
+        <ng-template #backUp>
+          <img src="../../../assets/images/lost_in_Giza.jpeg" 
+               [alt]="credit.name" 
+               class="w-full h-full object-cover rounded-lg transform transition-transform duration-500 group-hover:scale-105 group-hover:translate-y-1">
+        </ng-template>
+      </div>
+  
+      <!-- Actor name with hover effect -->
+      <p class="text-sm md:text-base mt-2 font-medium text-black hover:text-blue-600 transition-colors duration-200">
+        {{credit.name}}
+      </p>
+      <!-- Character name -->
+      <p class="text-sm text-gray-600">
+        {{credit.character}}
+      </p>
+    </div>
+  </swiper-slide>
+  
+
+
+
+}
+
+
+
+
+
+
+</swiper-container>
